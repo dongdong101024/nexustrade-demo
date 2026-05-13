@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusTrade - Crypto Trading Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0b0e;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .bg-glow {
+            position: fixed;
+            top: -30%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-glow-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,200,255,0.12) 0%, transparent 70%);
+            top: 5%;
+            right: -10%;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+        .bg-glow-2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(120,80,255,0.10) 0%, transparent 70%);
+            bottom: 10%;
+            left: -5%;
+            animation: floatGlow 10s ease-in-out infinite alternate-reverse;
+        }
+        .bg-glow-3 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,180,0,0.06) 0%, transparent 70%);
+            top: 50%;
+            right: 20%;
+            animation: floatGlow 12s ease-in-out infinite alternate;
+        }
+        @keyframes floatGlow {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(60px,-40px) scale(1.2); }
+        }
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            margin-bottom: 40px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .nav-links a:hover { color: #fff; }
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .lang-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .lang-btn.active {
+            background: rgba(0,200,255,0.15);
+            color: #00c8ff;
+        }
+        .lang-btn:hover { color: #fff; }
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+            animation: fadeInUp 1s ease;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0,200,255,0.1);
+            border: 1px solid rgba(0,200,255,0.2);
+            border-radius: 100px;
+            font-size: 13px;
+            color: #00c8ff;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, #00c8ff, #7b5aff, #ff6bb5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 18px;
+            color: #999;
+            max-width: 560px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,200,255,0.3);
+        }
+        .btn-secondary {
+            padding: 16px 32px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #ccc;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            padding: 32px 0;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 60px 0;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        .feature-card {
+            padding: 32px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+            cursor: default;
+        }
+        .feature-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(0,200,255,0.2);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+        .feature-icon.blue { background: rgba(0,200,255,0.12); color: #00c8ff; }
+        .feature-icon.purple { background: rgba(120,80,255,0.12); color: #7b5aff; }
+        .feature-icon.gold { background: rgba(255,180,0,0.12); color: #ffb400; }
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.6;
+        }
+        .pricing-section {
+            padding: 40px 0 60px;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .section-sub {
+            text-align: center;
+            color: #777;
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .pricing-card {
+            padding: 32px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            transition: all 0.4s;
+        }
+        .pricing-card.featured {
+            border-color: rgba(0,200,255,0.3);
+            background: rgba(0,200,255,0.04);
+            position: relative;
+        }
+        .pricing-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 16px;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0,200,255,0.2);
+        }
+        .plan-name {
+            font-size: 14px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .plan-price {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+        .plan-price span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+        }
+        .plan-desc {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+        .plan-features li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: #bbb;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .plan-features li::before {
+            content: '\2713';
+            color: #00c8ff;
+            font-weight: 700;
+        }
+        .btn-plan {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .btn-plan:hover {
+            background: rgba(0,200,255,0.1);
+            border-color: #00c8ff;
+        }
+        .btn-plan.featured-btn {
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            border: none;
+        }
+        .btn-plan.featured-btn:hover {
+            box-shadow: 0 4px 20px rgba(0,200,255,0.3);
+        }
+        .ticker-bar {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 16px 24px;
+            margin: -10px 0 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ticker-icon {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+        }
+        .ticker-icon.btc { background: rgba(240,185,0,0.15); color: #f0b90b; }
+        .ticker-icon.eth { background: rgba(100,120,255,0.15); color: #627eea; }
+        .ticker-icon.sol { background: rgba(0,200,150,0.15); color: #00c896; }
+        .ticker-icon.bnb { background: rgba(240,185,0,0.15); color: #f0b90b; }
+        .ticker-price {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .ticker-change {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        .ticker-change.green { background: rgba(0,200,100,0.12); color: #00c864; }
+        .ticker-change.red { background: rgba(255,70,70,0.12); color: #ff4646; }
+        .calculator {
+            padding: 40px 0;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .calc-card {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 36px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+        }
+        .calc-slider-group { margin-bottom: 20px; }
+        .calc-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+        .calc-label span:last-child { color: #fff; font-weight: 700; }
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            cursor: pointer;
+        }
+        .calc-result {
+            text-align: center;
+            padding: 20px;
+            margin-top: 8px;
+            background: rgba(0,200,255,0.05);
+            border: 1px solid rgba(0,200,255,0.1);
+            border-radius: 12px;
+        }
+        .calc-result .big-number {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00c8ff, #7b5aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .calc-result .label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .deposit-section {
+            padding: 30px 0;
+            text-align: center;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        .deposit-btn {
+            padding: 18px 48px;
+            background: linear-gradient(135deg, #00c864, #00a3ff);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .deposit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,200,100,0.3);
+        }
+        .deposit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .deposit-progress {
+            margin-top: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            display: none;
+        }
+        .deposit-progress.active { display: block; }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00c864, #00a3ff);
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        .progress-text { font-size: 13px; color: #888; }
+        .deposit-result {
+            margin-top: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .deposit-result.show { display: block; }
+        .faq-section {
+            padding: 40px 0;
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 6px 0;
+        }
+        .faq-question {
+            width: 100%;
+            padding: 16px 0;
+            background: none;
+            border: none;
+            color: #ddd;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            font-family: inherit;
+        }
+        .faq-question:hover { color: #fff; }
+        .faq-arrow {
+            font-size: 18px;
+            color: #666;
+            transition: transform 0.3s;
+        }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 0;
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding: 0 0 16px;
+        }
+        .testimonials {
+            padding: 40px 0;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .testimonial-card {
+            padding: 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+        }
+        .testimonial-stars { color: #ffb400; font-size: 14px; margin-bottom: 10px; }
+        .testimonial-text {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        .testimonial-author {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .testimonial-role { font-size: 12px; color: #666; }
+        footer {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 40px;
+        }
+        footer p { font-size: 13px; color: #555; }
+        footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        footer .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        footer .footer-links a:hover { color: #aaa; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #12141a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 420px;
+            animation: scaleIn 0.3s ease;
+        }
+        .modal h2 { font-size: 24px; font-weight: 800; margin-bottom: 6px; text-align: center; }
+        .modal .modal-sub { color: #888; font-size: 14px; text-align: center; margin-bottom: 24px; }
+        .modal .form-group { margin-bottom: 16px; }
+        .modal .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .modal .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .modal .form-group input:focus { border-color: #00c8ff; }
+        .modal .form-group input::placeholder { color: #555; }
+        .modal .btn-primary {
+            width: 100%;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .modal .modal-terms {
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+        .modal-wrapper { position: relative; }
+        .modal-wrapper .close-modal {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 28px;
+            color: #555;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-wrapper .close-modal:hover { color: #fff; }
+        .demo-modal {
+            max-width: 650px !important;
+            padding: 30px !important;
+        }
+        .demo-slide { text-align: center; }
+        .demo-slide .icon { font-size: 48px; margin-bottom: 12px; }
+        .demo-slide h3 { font-size: 18px; margin-bottom: 8px; }
+        .demo-slide p { color: #888; font-size: 14px; line-height: 1.6; }
+        .demo-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .demo-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .demo-dot.active { background: #00c8ff; }
+        .demo-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        .demo-nav button {
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 16px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+            .hero { padding: 30px 0; }
+            .stats-bar { gap: 24px; }
+            .modal { padding: 28px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow">
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+    <div class="bg-glow-3"></div>
+</div>
+
+<canvas id="particles"></canvas>
+
+<div class="content">
+
+    <!-- Nav -->
+    <nav>
+        <div class="logo">&#10022; NEXUS<span>TRADE</span></div>
+        <div class="nav-links">
+            <a onclick="scrollToSection('hero')" data-i18n="nav_home">Home</a>
+            <a onclick="scrollToSection('calculator')" data-i18n="nav_markets">Markets</a>
+            <a onclick="scrollToSection('pricing')" data-i18n="nav_pricing">Pricing</a>
+            <a onclick="scrollToSection('faq')" data-i18n="nav_support">Support</a>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="vi">VI</button>
+                <button class="lang-btn" data-lang="th">TH</button>
+                <button class="lang-btn" data-lang="id">ID</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-badge" data-i18n="hero_badge">Trusted by 2M+ Traders Worldwide</div>
+        <h1>
+            <span data-i18n="hero_title1">Trade Crypto.</span><br>
+            <span class="gradient" data-i18n="hero_title2">Zero Fees.</span>
+            <span data-i18n="hero_title3"> Instant.</span>
+        </h1>
+        <p data-i18n="hero_desc">Join the fastest-growing crypto exchange in Southeast Asia. Start with as little as $10 and trade with 0% maker fees.</p>
+        <div class="cta-group">
+            <button class="btn-primary" id="openRegister">&#11088; <span data-i18n="cta_start">Get Started Free</span></button>
+            <button class="btn-secondary" id="openDemo">&#9654; <span data-i18n="cta_demo">Watch Demo</span></button>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-item"><div class="stat-number" id="statUsers">0</div><div class="stat-label" data-i18n="stat_users">Active Users</div></div>
+            <div class="stat-item"><div class="stat-number" id="statVolume">$0</div><div class="stat-label" data-i18n="stat_volume">24h Volume</div></div>
+            <div class="stat-item"><div class="stat-number" id="statCountries">0</div><div class="stat-label" data-i18n="stat_countries">Countries</div></div>
+        </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-item">
+            <div class="ticker-icon btc">B</div>
+            <div>
+                <div class="ticker-price" id="tBtcPrice">$0</div>
+                <div class="ticker-change green" id="tBtcChg">+0.00%</div>
+            </div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-icon eth">E</div>
+            <div>
+                <div class="ticker-price" id="tEthPrice">$0</div>
+                <div class="ticker-change green" id="tEthChg">+0.00%</div>
+            </div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-icon sol">S</div>
+            <div>
+                <div class="ticker-price" id="tSolPrice">$0</div>
+                <div class="ticker-change green" id="tSolChg">+0.00%</div>
+            </div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-icon bnb">N</div>
+            <div>
+                <div class="ticker-price" id="tBnbPrice">$0</div>
+                <div class="ticker-change green" id="tBnbChg">+0.00%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon blue">&#9889;</div>
+            <h3 data-i18n="feat1_title">Lightning Fast</h3>
+            <p data-i18n="feat1_desc">Execute trades in milliseconds with our ultra-low latency infrastructure. From Bangkok to Jakarta, we've got you covered.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon purple">&#128737;</div>
+            <h3 data-i18n="feat2_title">Bank-Grade Security</h3>
+            <p data-i18n="feat2_desc">Multi-signature wallets, cold storage, and real-time monitoring. Your funds are protected by military-grade encryption.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon gold">&#127758;</div>
+            <h3 data-i18n="feat3_title">Local Payment Support</h3>
+            <p data-i18n="feat3_desc">Deposit and withdraw via local bank transfers, e-wallets, and payment channels across Vietnam, Thailand, and Indonesia.</p>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing-section" id="pricing">
+        <h2 class="section-title" data-i18n="plan_title">Choose Your Plan</h2>
+        <p class="section-sub" data-i18n="plan_sub">Flexible plans for every type of trader</p>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name" data-i18n="plan1_name">Starter</div>
+                <div class="plan-price">$0 <span>/mo</span></div>
+                <div class="plan-desc" data-i18n="plan1_desc">Perfect for beginners</div>
+                <ul class="plan-features">
+                    <li data-i18n="plan1_feat1">Spot trading access</li>
+                    <li data-i18n="plan1_feat2">0.1% taker fee</li>
+                    <li data-i18n="plan1_feat3">Basic chart tools</li>
+                    <li data-i18n="plan1_feat4">Email support</li>
+                </ul>
+                <button class="btn-plan" data-i18n="plan1_btn" onclick="openRegisterModal()">Get Started</button>
+            </div>
+            <div class="pricing-card featured">
+                <div class="plan-name" data-i18n="plan2_name">Pro</div>
+                <div class="plan-price">$29 <span>/mo</span></div>
+                <div class="plan-desc" data-i18n="plan2_desc">For serious traders</div>
+                <ul class="plan-features">
+                    <li data-i18n="plan2_feat1">All Starter features</li>
+                    <li data-i18n="plan2_feat2">0% maker fee</li>
+                    <li data-i18n="plan2_feat3">Advanced indicators</li>
+                    <li data-i18n="plan2_feat4">API access + priority</li>
+                </ul>
+                <button class="btn-plan featured-btn" id="openRegister2" data-i18n="plan2_btn">Start Free Trial</button>
+            </div>
+            <div class="pricing-card">
+                <div class="plan-name" data-i18n="plan3_name">Enterprise</div>
+                <div class="plan-price">$99 <span>/mo</span></div>
+                <div class="plan-desc" data-i18n="plan3_desc">For institutions</div>
+                <ul class="plan-features">
+                    <li data-i18n="plan3_feat1">All Pro features</li>
+                    <li data-i18n="plan3_feat2">Dedicated account mgr</li>
+                    <li data-i18n="plan3_feat3">Custom API limits</li>
+                    <li data-i18n="plan3_feat4">24/7 VIP support</li>
+                </ul>
+                <button class="btn-plan" data-i18n="plan3_btn">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calculator" id="calculator">
+        <h2 class="section-title" data-i18n="calc_title">Profit Calculator</h2>
+        <p class="section-sub" data-i18n="calc_sub">See how much you could earn</p>
+        <div class="calc-card">
+            <div class="calc-slider-group">
+                <div class="calc-label"><span data-i18n="calc_invest">Investment</span><span id="calcInvestVal">$1,000</span></div>
+                <input type="range" id="calcInvest" min="100" max="100000" value="1000" step="100">
+            </div>
+            <div class="calc-slider-group">
+                <div class="calc-label"><span data-i18n="calc_duration">Duration (days)</span><span id="calcDurVal">30 days</span></div>
+                <input type="range" id="calcDuration" min="7" max="365" value="30" step="1">
+            </div>
+            <div class="calc-result">
+                <div class="big-number" id="calcResultNum">$1,050.00</div>
+                <div class="label" data-i18n="calc_result_label">Estimated return (5% APY)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deposit Simulator -->
+    <section class="deposit-section">
+        <h2 class="section-title" data-i18n="deposit_title">Try a Deposit</h2>
+        <p class="section-sub" data-i18n="deposit_sub">See how fast our deposits work</p>
+        <button class="deposit-btn" id="depositBtn">&#9889; Simulate Deposit $100</button>
+        <div class="deposit-progress" id="depositProgress">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="progress-text" id="progressText">Processing...</div>
+            <div class="deposit-result" id="depositResult">Deposit of $100 confirmed in 2.3s!</div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+        <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
+        <p class="section-sub" data-i18n="faq_sub">Everything you need to know</p>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span data-i18n="faq1_q">How do I start trading?</span>
+                <span class="faq-arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer" data-i18n="faq1_a">Sign up for a free account, complete verification, deposit funds via your preferred payment method, and you are ready to trade.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span data-i18n="faq2_q">What are the fees?</span>
+                <span class="faq-arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer" data-i18n="faq2_a">Maker fees start at 0% for Pro users. Taker fees are as low as 0.05%. Deposit fees are waived for local payment methods.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span data-i18n="faq3_q">Is my money safe?</span>
+                <span class="faq-arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer" data-i18n="faq3_a">We use multi-signature cold storage wallets, 2FA authentication, and real-time monitoring. 95% of funds are stored in offline cold wallets.</div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span data-i18n="faq4_q">Can I withdraw to local banks?</span>
+                <span class="faq-arrow">&#9660;</span>
+            </button>
+            <div class="faq-answer" data-i18n="faq4_a">Yes! We support local bank transfers, e-wallets, and payment channels across Vietnam, Thailand, and Indonesia.</div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title" data-i18n="testimonials_title">What Our Users Say</h2>
+        <p class="section-sub" data-i18n="testimonials_sub">Join 2M+ happy traders</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <div class="testimonial-text" data-i18n="testimonial1">"Switched from Binance. The local deposit options in Vietnam are a game changer. Deposits arrive in under 30 seconds."</div>
+                <div class="testimonial-author">Minh Nguyen</div>
+                <div class="testimonial-role" data-i18n="testimonial1_role">Trader, Ho Chi Minh City</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <div class="testimonial-text" data-i18n="testimonial2">"Zero maker fees saved me thousands this month. The interface is clean and the mobile app works flawlessly."</div>
+                <div class="testimonial-author">Siti Rahayu</div>
+                <div class="testimonial-role" data-i18n="testimonial2_role">Crypto Investor, Jakarta</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <div class="testimonial-text" data-i18n="testimonial3">"Support team responds in Thai within minutes. Finally a platform that understands the local market!"</div>
+                <div class="testimonial-author">Kittipat S.</div>
+                <div class="testimonial-role" data-i18n="testimonial3_role">Day Trader, Bangkok</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#" data-i18n="footer_terms">Terms of Service</a>
+            <a href="#" data-i18n="footer_privacy">Privacy Policy</a>
+            <a href="#" data-i18n="footer_contact">Contact Us</a>
+        </div>
+        <p>&#169; 2026 NexusTrade.</p>
+    </footer>
+</div>
+
+<!-- Demo Modal -->
+<div class="modal-overlay" id="demoModal">
+    <div class="modal-wrapper">
+        <button class="close-modal" onclick="document.getElementById('demoModal').classList.remove('show')">&times;</button>
+        <div class="modal demo-modal">
+            <h2 data-i18n="demo_title">How NexusTrade Works</h2>
+            <div id="demoSlides" style="margin:20px 0;min-height:260px">
+                <div class="demo-slide" style="display:block">
+                    <div class="icon">&#128176;</div>
+                    <h3 data-i18n="demo_s1_title">Step 1: Deposit</h3>
+                    <p data-i18n="demo_s1_desc">Deposit via local bank transfer, e-wallet, or crypto. Funds arrive in under 30 seconds across Vietnam, Thailand, and Indonesia.</p>
+                </div>
+                <div class="demo-slide" style="display:none">
+                    <div class="icon">&#128202;</div>
+                    <h3 data-i18n="demo_s2_title">Step 2: Trade</h3>
+                    <p data-i18n="demo_s2_desc">Access 300+ trading pairs with 0% maker fees. Use advanced charting tools, limit orders, and stop-loss features.</p>
+                </div>
+                <div class="demo-slide" style="display:none">
+                    <div class="icon">&#128737;</div>
+                    <h3 data-i18n="demo_s3_title">Step 3: Secure</h3>
+                    <p data-i18n="demo_s3_desc">Your funds are protected by multi-signature cold storage wallets and military-grade encryption. 95% of assets stored offline.</p>
+                </div>
+                <div class="demo-slide" style="display:none">
+                    <div class="icon">&#127758;</div>
+                    <h3 data-i18n="demo_s4_title">Step 4: Withdraw</h3>
+                    <p data-i18n="demo_s4_desc">Withdraw to your local bank account or e-wallet anytime. Processing times: 2-5 minutes for most local payment methods.</p>
+                </div>
+            </div>
+            <div class="demo-dots">
+                <button class="demo-dot active" onclick="showDemoSlide(0)"></button>
+                <button class="demo-dot" onclick="showDemoSlide(1)"></button>
+                <button class="demo-dot" onclick="showDemoSlide(2)"></button>
+                <button class="demo-dot" onclick="showDemoSlide(3)"></button>
+            </div>
+            <div class="demo-nav">
+                <button class="btn-secondary" onclick="prevDemoSlide()" data-i18n="demo_prev">&#8592; Previous</button>
+                <button class="btn-primary" onclick="nextDemoSlide()" data-i18n="demo_next">Next &#8594;</button>
+            </div>
+            <button class="btn-primary" onclick="document.getElementById('demoModal').classList.remove('show');openRegisterModal()" style="width:100%;justify-content:center;margin-top:16px" data-i18n="demo_cta">Start Trading Now</button>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-wrapper">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal">
+            <h2 data-i18n="modal_title">Create Your Account</h2>
+            <p class="modal-sub" data-i18n="modal_sub">Start trading in under 60 seconds</p>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label data-i18n="modal_email">Email Address</label>
+                    <input type="email" id="regEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group" style="display:none" id="codeGroup">
+                    <label data-i18n="modal_code">Verification Code</label>
+                    <div style="display:flex;gap:8px">
+                        <input type="text" id="regCode" placeholder="123456" maxlength="6" style="flex:1" required>
+                        <button type="button" id="sendCodeBtn" style="padding:14px 16px;background:rgba(0,200,255,0.12);border:1px solid rgba(0,200,255,0.2);border-radius:10px;color:#00c8ff;font-weight:600;font-size:13px;cursor:pointer;white-space:nowrap;font-family:inherit" data-i18n="modal_send">Send Code</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" id="modalSubmit" style="display:none" data-i18n="modal_btn">Create Free Account</button>
+            </form>
+            <div class="modal-terms" data-i18n="modal_terms">By registering, you agree to our Terms and Privacy Policy.</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========== Particles ==========
+(function() {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    for(let i = 0; i < 80; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.3,
+            speedY: (Math.random() - 0.5) * 0.3,
+            opacity: Math.random() * 0.5 + 0.1
+        });
+    }
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.speedX; p.y += p.speedY;
+            if(p.x < 0) p.x = canvas.width;
+            if(p.x > canvas.width) p.x = 0;
+            if(p.y < 0) p.y = canvas.height;
+            if(p.y > canvas.height) p.y = 0;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,' + p.opacity + ')';
+            ctx.fill();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+})();
+
+// ========== Counter ==========
+function animateCounter(el, target, suffix) {
+    suffix = suffix || '';
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const interval = setInterval(() => {
+        current += step;
+        if(current >= target) { current = target; clearInterval(interval); }
+        el.textContent = suffix + current.toLocaleString('en-US');
+    }, 25);
+}
+setTimeout(() => {
+    animateCounter(document.getElementById('statUsers'), 2450000);
+    animateCounter(document.getElementById('statVolume'), 1280000000, '$');
+    animateCounter(document.getElementById('statCountries'), 37);
+}, 500);
+
+// ========== Smooth Scroll Nav ==========
+function scrollToSection(id) {
+    const el = document.getElementById(id) || document.querySelector('.' + id);
+    if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ========== Live Ticker (Real Binance Data) ==========
+const tickerSymbols = [
+    { symbol: 'BTCUSDT', priceId: 'tBtcPrice', chgId: 'tBtcChg' },
+    { symbol: 'ETHUSDT', priceId: 'tEthPrice', chgId: 'tEthChg' },
+    { symbol: 'SOLUSDT', priceId: 'tSolPrice', chgId: 'tSolChg' },
+    { symbol: 'BNBUSDT', priceId: 'tBnbPrice', chgId: 'tBnbChg' }
+];
+
+function fetchTickerData() {
+    const symbols = JSON.stringify(tickerSymbols.map(function(t) { return t.symbol; }));
+    fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=' + encodeURIComponent(symbols))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            data.forEach(function(item) {
+                const match = tickerSymbols.find(function(t) { return t.symbol === item.symbol; });
+                if(!match) return;
+                const price = parseFloat(item.lastPrice);
+                const change = parseFloat(item.priceChangePercent);
+                var fmt = '$' + price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById(match.priceId).textContent = fmt;
+                var el = document.getElementById(match.chgId);
+                var sign = change >= 0 ? '+' : '';
+                el.textContent = sign + change.toFixed(2) + '%';
+                el.className = 'ticker-change ' + (change >= 0 ? 'green' : 'red');
+            });
+        })
+        .catch(function(err) {
+            // Silenty retry on next interval
+        });
+}
+
+fetchTickerData();
+setInterval(fetchTickerData, 10000);
+
+// ========== Calculator ==========
+function updateCalc() {
+    const invest = parseInt(document.getElementById('calcInvest').value);
+    const days = parseInt(document.getElementById('calcDuration').value);
+    document.getElementById('calcInvestVal').textContent = '$' + invest.toLocaleString();
+    document.getElementById('calcDurVal').textContent = days + ' days';
+    const returns = invest * (1 + 0.05 * (days / 365));
+    document.getElementById('calcResultNum').textContent = '$' + returns.toFixed(2);
+}
+document.getElementById('calcInvest').addEventListener('input', updateCalc);
+document.getElementById('calcDuration').addEventListener('input', updateCalc);
+
+// ========== Deposit Simulator ==========
+document.getElementById('depositBtn').addEventListener('click', function() {
+    const btn = this;
+    const progress = document.getElementById('depositProgress');
+    const fill = document.getElementById('progressFill');
+    const text = document.getElementById('progressText');
+    const result = document.getElementById('depositResult');
+    btn.disabled = true;
+    btn.textContent = 'Depositing...';
+    progress.classList.add('active');
+    result.classList.remove('show');
+    let pct = 0;
+    const interval = setInterval(() => {
+        pct += Math.random() * 15 + 5;
+        if(pct >= 100) {
+            pct = 100;
+            clearInterval(interval);
+            fill.style.width = '100%';
+            text.textContent = 'Verifying...';
+            setTimeout(() => {
+                text.textContent = 'Completed!';
+                result.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = '&#9889; Simulate Deposit $100';
+            }, 800);
+        }
+        fill.style.width = pct + '%';
+        text.textContent = 'Processing... ' + Math.floor(pct) + '%';
+    }, 200);
+});
+
+// ========== FAQ ==========
+function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+}
+
+// ========== Demo Slideshow ==========
+let demoIdx = 0;
+function showDemoSlide(idx) {
+    const slides = document.querySelectorAll('#demoSlides .demo-slide');
+    const dots = document.querySelectorAll('.demo-dot');
+    slides.forEach((s, i) => { s.style.display = i === idx ? 'block' : 'none'; });
+    dots.forEach((d, i) => { d.className = 'demo-dot' + (i === idx ? ' active' : ''); });
+    demoIdx = idx;
+}
+function nextDemoSlide() { showDemoSlide(Math.min(demoIdx + 1, 3)); }
+function prevDemoSlide() { showDemoSlide(Math.max(demoIdx - 1, 0)); }
+
+document.getElementById('openDemo').addEventListener('click', function() {
+    showDemoSlide(0);
+    document.getElementById('demoModal').classList.add('show');
+});
+
+// ========== Modal ==========
+function openRegisterModal() {
+    document.getElementById('registerModal').classList.add('show');
+}
+const openBtns = document.querySelectorAll('#openRegister, #openRegister2');
+const closeBtn = document.getElementById('closeModal');
+const modal = document.getElementById('registerModal');
+
+openBtns.forEach(btn => btn.addEventListener('click', openRegisterModal));
+closeBtn.addEventListener('click', function() { modal.classList.remove('show'); });
+modal.addEventListener('click', function(e) { if(e.target === modal) modal.classList.remove('show'); });
+
+// Demo modal click to close
+document.getElementById('demoModal').addEventListener('click', function(e) {
+    if(e.target === this) this.classList.remove('show');
+});
+
+// ========== Verification Code ==========
+const regEmail = document.getElementById('regEmail');
+const codeGroup = document.getElementById('codeGroup');
+const sendBtn = document.getElementById('sendCodeBtn');
+const submitBtn = document.getElementById('modalSubmit');
+
+regEmail.addEventListener('input', function() {
+    if(this.value.includes('@') && codeGroup.style.display === 'none') {
+        codeGroup.style.display = 'block';
+    }
+});
+sendBtn.addEventListener('click', function() {
+    const email = regEmail.value.trim();
+    if(!email.includes('@')) { alert('Please enter a valid email'); return; }
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    let countdown = 60;
+    const interval = setInterval(function() {
+        countdown--;
+        if(countdown <= 0) {
+            clearInterval(interval);
+            btn.disabled = false;
+            btn.textContent = 'Send Code';
+            submitBtn.style.display = 'block';
+        } else {
+            btn.textContent = 'Resend (' + countdown + 's)';
+        }
+    }, 1000);
+});
+
+// ========== Register Form Submit ==========
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Account created! Welcome to NexusTrade. Check your email to verify.');
+    modal.classList.remove('show');
+    this.reset();
+    codeGroup.style.display = 'none';
+    submitBtn.style.display = 'none';
+});
+
+// ========== Multi-Language Translation ==========
+const translations = {
+    en: {
+        nav_home: 'Home', nav_markets: 'Markets', nav_pricing: 'Pricing', nav_support: 'Support',
+        hero_badge: 'Trusted by 2M+ Traders Worldwide',
+        hero_title1: 'Trade Crypto.', hero_title2: 'Zero Fees.', hero_title3: ' Instant.',
+        hero_desc: 'Join the fastest-growing crypto exchange in Southeast Asia. Start with as little as  and trade with 0% maker fees.',
+        cta_start: 'Get Started Free', cta_demo: 'Watch Demo',
+        stat_users: 'Active Users', stat_volume: '24h Volume', stat_countries: 'Countries',
+        feat1_title: 'Lightning Fast', feat1_desc: 'Execute trades in milliseconds with our ultra-low latency infrastructure. From Bangkok to Jakarta, we have got you covered.',
+        feat2_title: 'Bank-Grade Security', feat2_desc: 'Multi-signature wallets, cold storage, and real-time monitoring. Your funds are protected by military-grade encryption.',
+        feat3_title: 'Local Payment Support', feat3_desc: 'Deposit and withdraw via local bank transfers, e-wallets, and payment channels across Vietnam, Thailand, and Indonesia.',
+        plan_title: 'Choose Your Plan', plan_sub: 'Flexible plans for every type of trader',
+        plan1_name: 'Starter', plan1_desc: 'Perfect for beginners',
+        plan1_feat1: 'Spot trading access', plan1_feat2: '0.1% taker fee', plan1_feat3: 'Basic chart tools', plan1_feat4: 'Email support',
+        plan2_name: 'Pro', plan2_desc: 'For serious traders',
+        plan2_feat1: 'All Starter features', plan2_feat2: '0% maker fee', plan2_feat3: 'Advanced indicators', plan2_feat4: 'API access + priority',
+        plan3_name: 'Enterprise', plan3_desc: 'For institutions',
+        plan3_feat1: 'All Pro features', plan3_feat2: 'Dedicated account mgr', plan3_feat3: 'Custom API limits', plan3_feat4: '24/7 VIP support',
+        calc_title: 'Profit Calculator', calc_sub: 'See how much you could earn', calc_invest: 'Investment', calc_duration: 'Duration (days)', calc_result_label: 'Estimated return (5% APY)',
+        deposit_title: 'Try a Deposit', deposit_sub: 'See how fast our deposits work', deposit_btn: 'Simulate Deposit ',
+        faq_title: 'FAQ', faq_sub: 'Everything you need to know',
+        faq1_q: 'How do I start trading?', faq1_a: 'Sign up for a free account, complete verification, deposit funds via your preferred payment method, and you are ready to trade.',
+        faq2_q: 'What are the fees?', faq2_a: 'Maker fees start at 0% for Pro users. Taker fees are as low as 0.05%. Deposit fees are waived for local payment methods.',
+        faq3_q: 'Is my money safe?', faq3_a: 'We use multi-signature cold storage wallets, 2FA authentication, and real-time monitoring. 95% of funds are stored in offline cold wallets.',
+        faq4_q: 'Can I withdraw to local banks?', faq4_a: 'Yes! We support local bank transfers, e-wallets, and payment channels across Vietnam, Thailand, and Indonesia.',
+        testimonials_title: 'What Our Users Say', testimonials_sub: 'Join 2M+ happy traders',
+        testimonial1: 'Switched from Binance. The local deposit options in Vietnam are a game changer. Deposits arrive in under 30 seconds.',
+        testimonial1_role: 'Trader, Ho Chi Minh City',
+        testimonial2: 'Zero maker fees saved me thousands this month. The interface is clean and the mobile app works flawlessly.',
+        testimonial2_role: 'Crypto Investor, Jakarta',
+        testimonial3: 'Support team responds in Thai within minutes. Finally a platform that understands the local market!',
+        testimonial3_role: 'Day Trader, Bangkok',
+        footer_terms: 'Terms of Service', footer_privacy: 'Privacy Policy', footer_contact: 'Contact Us',
+        footer_disclaimer: 'This is a demo page for educational purposes only.',
+        modal_title: 'Create Your Account', modal_sub: 'Start trading in under 60 seconds',
+        modal_email: 'Email Address', modal_code: 'Verification Code', modal_send: 'Send Code',
+        modal_btn: 'Create Free Account', modal_terms: 'By registering, you agree to our Terms and Privacy Policy.',
+        demo_title: 'How NexusTrade Works',
+        demo_s1_title: 'Step 1: Deposit', demo_s1_desc: 'Deposit via local bank transfer, e-wallet, or crypto. Funds arrive in under 30 seconds across Vietnam, Thailand, and Indonesia.',
+        demo_s2_title: 'Step 2: Trade', demo_s2_desc: 'Access 300+ trading pairs with 0% maker fees. Use advanced charting tools, limit orders, and stop-loss features.',
+        demo_s3_title: 'Step 3: Secure', demo_s3_desc: 'Your funds are protected by multi-signature cold storage wallets and military-grade encryption. 95% of assets stored offline.',
+        demo_s4_title: 'Step 4: Withdraw', demo_s4_desc: 'Withdraw to your local bank account or e-wallet anytime. Processing times: 2-5 minutes for most local payment methods.',
+        demo_prev: 'Previous', demo_next: 'Next', demo_cta: 'Start Trading Now'
+    },
+    vi: {
+        nav_home: 'Trang chu', nav_markets: 'Thi truong', nav_pricing: 'Bang gia', nav_support: 'Ho tro',
+        hero_badge: 'Hon 2 trieu nguoi dung tren toan the gioi',
+        hero_title1: 'Giao dich Crypto.', hero_title2: 'Phi 0%.', hero_title3: ' Tuc thi.',
+        hero_desc: 'Tham gia san giao dich crypto phat trien nhanh nhat Dong Nam A. Bat dau chi tu  va giao dich voi phi maker 0%.',
+        cta_start: 'Bat dau mien phi', cta_demo: 'Xem huong dan',
+        stat_users: 'Nguoi dung', stat_volume: 'Khoi luong 24h', stat_countries: 'Quoc gia',
+        feat1_title: 'Sieu toc', feat1_desc: 'Giao dich trong mili giay. Tu Bangkok den Jakarta, chung toi luon dong hanh.',
+        feat2_title: 'Bao mat cao', feat2_desc: 'Vi da chu ky, luu tru lanh va giam sat thoi gian thuc. Tai san cua ban duoc bao ve boi ma hoa dang cap quan su.',
+        feat3_title: 'Ho tro thanh toan dia phuong', feat3_desc: 'Nap va rut qua chuyen khoan ngan hang, vi dien tu tai Viet Nam, Thai Lan va Indonesia.',
+        plan_title: 'Chon goi cua ban', plan_sub: 'Goi linh hoat cho moi nha giao dich',
+        plan1_name: 'Co ban', plan1_desc: 'Phu hop cho nguoi moi',
+        plan1_feat1: 'Giao dich spot', plan1_feat2: 'Phi taker 0.1%', plan1_feat3: 'Cong cu bieu do co ban', plan1_feat4: 'Ho tro email',
+        plan2_name: 'Chuyen nghiep', plan2_desc: 'Cho nha giao dich chuyen sau',
+        plan2_feat1: 'Tat ca tinh nang Co ban', plan2_feat2: 'Phi maker 0%', plan2_feat3: 'Chi bao nang cao', plan2_feat4: 'API + uu tien',
+        plan3_name: 'Doanh nghiep', plan3_desc: 'Cho to chuc',
+        plan3_feat1: 'Tat ca tinh nang Pro', plan3_feat2: 'Quan ly tai khoan rieng', plan3_feat3: 'Gioi han API tuy chinh', plan3_feat4: 'Ho tro VIP 24/7',
+        calc_title: 'May tinh loi nhuan', calc_sub: 'Xem ban co the kiem duoc bao nhieu', calc_invest: 'Dau tu', calc_duration: 'Thoi gian (ngay)', calc_result_label: 'Loi nhuan uoc tinh (5% APY)',
+        deposit_title: 'Thu nap tien', deposit_sub: 'Xem nap tien nhanh the nao', deposit_btn: 'Nap thu ',
+        faq_title: 'Hoi dap', faq_sub: 'Moi dieu ban can biet',
+        faq1_q: 'Lam the nao de bat dau giao dich?', faq1_a: 'Dang ky tai khoan mien phi, hoan tat xac minh, nap tien va san sang giao dich.',
+        faq2_q: 'Phi la bao nhieu?', faq2_a: 'Phi maker bat dau tu 0% cho nguoi dung Pro. Phi taker thap chi 0.05%.',
+        faq3_q: 'Tien cua toi co an toan khong?', faq3_a: 'Chung toi su dung vi da chu ky, xac thuc 2 lop va giam sat thoi gian thuc. 95% tai san duoc luu tru offline.',
+        faq4_q: 'Co the rut ve ngan hang dia phuong khong?', faq4_a: 'Co! Chung toi ho tro chuyen khoan ngan hang va vi dien tu tai Viet Nam, Thai Lan va Indonesia.',
+        testimonials_title: 'Nguoi dung noi gi', testimonials_sub: 'Tham gia cung 2 trieu+ nha giao dich',
+        testimonial1: 'Chuyen tu Binance sang. Cac tuy chon nap tien noi dia tai Viet Nam thuc su thay doi cuoc choi.',
+        testimonial1_role: 'Nha giao dich, TP. Ho Chi Minh',
+        testimonial2: 'Phi maker 0% giup toi tiet kiem hang nghin do moi thang. Giao dien sach se va ung dung di dong cuc ky muot.',
+        testimonial2_role: 'Nha dau tu Crypto, Jakarta',
+        testimonial3: 'Doi ngu ho tro tra loi bang tieng Thai Lan trong vai phut. Cuoi cung da co nen tang hieu thi truong dia phuong!',
+        testimonial3_role: 'Day Trader, Bangkok',
+        footer_terms: 'Dieu khoan', footer_privacy: 'Bao mat', footer_contact: 'Lien he',
+        footer_disclaimer: 'Day la trang demo chi danh cho muc dich hoc tap.',
+        modal_title: 'Tao tai khoan', modal_sub: 'Bat dau giao dich trong 60 giay',
+        modal_email: 'Dia chi Email', modal_code: 'Ma xac minh', modal_send: 'Gui ma',
+        modal_btn: 'Tao tai khoan mien phi', modal_terms: 'Bang cach dang ky, ban dong y voi Dieu khoan va Chinh sach bao mat cua chung toi.',
+        demo_title: 'Cach NexusTrade hoat dong',
+        demo_s1_title: 'Buoc 1: Nap tien', demo_s1_desc: 'Nap tien qua chuyen khoan ngan hang, vi dien tu hoac crypto. Tien den trong 30 giay.',
+        demo_s2_title: 'Buoc 2: Giao dich', demo_s2_desc: 'Truy cap 300+ cap giao dich voi phi maker 0%. Su dung cong cu bieu do nang cao.',
+        demo_s3_title: 'Buoc 3: Bao mat', demo_s3_desc: 'Tai san cua ban duoc bao ve boi vi da chu ky lanh va ma hoa dang cap quan su.',
+        demo_s4_title: 'Buoc 4: Rut tien', demo_s4_desc: 'Rut tien ve tai khoan ngan hang hoac vi dien tu bat cu luc nao.',
+        demo_prev: 'Truoc', demo_next: 'Tiep', demo_cta: 'Bat dau giao dich ngay'
+    },
+    th: {
+        nav_home: 'Hnanaek', nav_markets: 'Tlad', nav_pricing: 'Raka', nav_support: 'Chuayleux',
+        hero_badge: 'Phu chayngan kwa 2 lan khonthua thawlok',
+        hero_title1: 'Therd Crypto.', hero_title2: 'Khamthamniym 0%.', hero_title3: ' Thanti.',
+        hero_desc: 'Rwmmepnswnykhnangbxbtherd crypto thi toetow rewsudin-exechiytawnxxkesiyngtawxnkekid therngtnephiyng  aela therdodymimikhathamniym maker',
+        cta_start: 'Rerimtnfri', cta_demo: 'du tawyangsrang',
+        stat_users: 'Phu chayngan', stat_volume: 'Priman 24 chm.', stat_countries: 'Praeths',
+        feat1_title: 'Rwadrewthnico', feat1_desc: 'Daeninkarthrdinradbmilliwinathi Jakkrungtheph thung cakartaera khrawkhlumthukphunthi',
+        feat2_title: 'Khwamplxdphayradbbank', feat2_desc: 'Krabeaenginebaebhlaylaysen kanekrbruakeb cawa aela kardrwcsxb briewthisnxng withikhwamplexngthinatkwalatpi rphy khxngkhunthukpxngkn dwykar kharhawl withikhxngthhar',
+        feat3_title: 'rxngrbkarcha araye phayngthxngthin', feat3_desc: 'fakaela ekchin phanthangkrungtheph thxngthin krabeaengin xielkthrxniks phayin ekchiyn ay thai aela xinodniesiy',
+        plan_title: 'eluxkaephnkhxngkhun', plan_sub: 'aephn thiyidhyun sahrabethredxer thukpheim',
+        plan1_name: 'erimtn', plan1_desc: 'eka matsahrbmuxihm',
+        plan1_feat1: 'ekathung Spot trading', plan1_feat2: 'khamthamniym taker 0.1%', plan1_feat3: 'ekhruxngmuxkarfaexphunthan', plan1_feat4: 'snbsnunthangxielmi', plan1_btn: 'erimtn',
+        plan2_name: 'muxachiph', plan2_desc: 'sahbrethredxercringcng',
+        plan2_feat1: 'fiecxr Starter thnghmd', plan2_feat2: 'khamthamniym maker 0%', plan2_feat3: 'chixbdanaaxwa khan sung', plan2_feat4: 'API + lasadbsakhy', plan2_btn: 'thdlxngichfri',
+        plan3_name: 'ngkhkr', plan3_desc: 'sahrbsathabn',
+        plan3_feat1: 'fiecxr Pro thnghmd', plan3_feat2: 'phuchadkarbychiswntaw', plan3_feat3: 'xdkhdlindAPI aebb kahndxngedxng', plan3_feat4: 'snbsnun VIP 24/7',
+        calc_title: 'Kheruxngkhid raif', calc_sub: 'du wa chay ca reiy khaidak khatang di bang thi',
+        calc_invest: 'Kanlongthun', calc_duration: 'Rayawela (wan)', calc_result_label: 'phon tx b tak kha (5% APY)',
+        deposit_title: 'Longthux f ak ngein', deposit_sub: 'Du wa kanfak ngein rewadi bang thi',
+        deposit_btn: 'Laeli Pramanfak ngein ',
+        faq_title: 'Khamthamechoi', faq_sub: 'Thuk sing thi khun tongkanru',
+        faq1_q: 'ca reim keep trading di a yang ra?',
+        faq1_a: 'leang cm ng b nchi khrang taw x isa a, kwacacb a karmuun twton li warn, rwm ng go rthr',
+        faq2_q: 'mi ma ta kha ther rm?',
+        faq2_a: 'Jaedthi maker man tam thi mi Pro ja jaed up tam thi sing 0.05%',
+        faq3_q: 'go rthr khong chan plxd phay r lang?',
+        faq3_a: 'We used mutli-cold storage sign technology, 2FA confirmation and actual time check, 95% who were kept offline.',
+        faq4_q: 'Thi khun s amit k up a n pen u m ther k?',
+        faq4_a: 'Hey! we sup lok full via bank through via e-Wallet via via bank as well cover Vietnam until Thailand and Indonesia',
+        testimonials_title: 'Phu chayngan khxngeraklaw',
+        testimonials_sub: 'rwm 2 lan+ nawraxekharikhaidi',
+        testimonial1: 'Biy ma cak Binance Thang leuxk kar fak ngein ki cage thin a chin na ya n',
+        testimonial1_role: 'Therd Reder, in a no chi mingi',
+        testimonial2: 'Kha thamniym maker 0% chuay p rai ng en pen phn du llar which to the face di',
+        testimonial2_role: 'Rro bicoe', 
+        testimonial3: 'Team snbsnun tx opthi phasa Thai nai tquna thi sly di',
+        testimonial3_role: 'Day Trader, Krung thep',
+        footer_terms: 'Kho r m oo k ', footer_privacy: 'Nayobaykhwam pn', footer_contact: 'X sar me on',
+        footer_disclaimer: 'Hna ni pen hna demo phux kar suksa thao nan',
+        modal_title: 'srang bchises reng khxngkhun', modal_sub: 'Therdphayin 60 winathi',
+        modal_email: 'Thixyu email', modal_code: 'Rsr ham yu yoan tansung', modal_send: 'sngrs',
+        modal_btn: 'srang bchises se reng', modal_terms: 'Doykarlngethiybkarthyun yxm rxng law ithi khorngkhan aela nphiybbankh wmkhxngeran',
+        demo_title: 'Chati Nekkas phuen',
+        demo_s1_title: 'Khamthao thi 1: fak ngein', demo_s1_desc: 'fak ngein phanthangkrungtheph thxngthin praethsay',
+        demo_s2_title: 'Khamthao thi 2: therd', demo_s2_desc: 'therd dai thukkhuthang',
+        demo_s3_title: 'Khamthao thi 3: plxd phay', demo_s3_desc: 'Sinsap khxng khun di a ngein rai kha',
+        demo_s4_title: 'Khamthao thi 4: thxn ngein', demo_s4_desc: 'L ak lea chai',
+        demo_prev: 'Kxnna', demo_next: 'Thdi pailng', demo_cta: 'Lngthun thanthi'
+    },
+    id: {
+        nav_home: 'Beranda', nav_markets: 'Pasar', nav_pricing: 'Harga', nav_support: 'Dukungan',
+        hero_badge: 'Dipercaya 2 Juta+ Trader di Seluruh Dunia',
+        hero_title1: 'Trading Crypto.', hero_title2: 'Biaya 0%.', hero_title3: ' Instan.',
+        hero_desc: 'Bergabunglah dengan bursa crypto dengan pertumbuhan tercepat di Asia Tenggara. Mulai hanya dengan  dan trading dengan biaya maker 0%.',
+        cta_start: 'Mulai Gratis', cta_demo: 'Tonton Demo',
+        stat_users: 'Pengguna Aktif', stat_volume: 'Volume 24 Jam', stat_countries: 'Negara',
+        feat1_title: 'Super Cepat', feat1_desc: 'Eksekusi trading dalam milidetik. Dari Bangkok hingga Jakarta, kami siap melayani Anda.',
+        feat2_title: 'Keamanan Tingkat Bank', feat2_desc: 'Dompet multi-signature, cold storage, dan pemantauan real-time. Dana Anda dilindungi enkripsi militer.',
+        feat3_title: 'Dukungan Pembayaran Lokal', feat3_desc: 'Deposit dan tarik melalui transfer bank lokal, e-wallet di Vietnam, Thailand, dan Indonesia.',
+        plan_title: 'Pilih Paket Anda', plan_sub: 'Paket fleksibel untuk semua tipe trader',
+        plan1_name: 'Pemula', plan1_desc: 'Cocok untuk pemula',
+        plan1_feat1: 'Akses trading spot', plan1_feat2: 'Biaya taker 0.1%', plan1_feat3: 'Alat grafik dasar', plan1_feat4: 'Dukungan email',
+        plan2_name: 'Pro', plan2_desc: 'Untuk trader serius',
+        plan2_feat1: 'Semua fitur Pemula', plan2_feat2: 'Biaya maker 0%', plan2_feat3: 'Indikator lanjutan', plan2_feat4: 'Akses API + prioritas',
+        plan3_name: 'Enterprise', plan3_desc: 'Untuk institusi',
+        plan3_feat1: 'Semua fitur Pro', plan3_feat2: 'Manajer akun khusus', plan3_feat3: 'Batas API khusus', plan3_feat4: 'Dukungan VIP 24/7',
+        calc_title: 'Kalkulator Keuntungan', calc_sub: 'Lihat berapa banyak yang bisa Anda hasilkan', calc_invest: 'Investasi', calc_duration: 'Durasi (hari)', calc_result_label: 'Perkiraan hasil (5% APY)',
+        deposit_title: 'Coba Deposit', deposit_sub: 'Lihat seberapa cepat deposit kami bekerja', deposit_btn: 'Simulasi Deposit ',
+        faq_title: 'FAQ', faq_sub: 'Semua yang perlu Anda ketahui',
+        faq1_q: 'Bagaimana cara memulai trading?', faq1_a: 'Daftar akun gratis, selesaikan verifikasi, deposit dana, dan Anda siap trading.',
+        faq2_q: 'Berapa biayanya?', faq2_a: 'Biaya maker mulai dari 0%. Biaya taker serendah 0.05%.',
+        faq3_q: 'Apakah uang saya aman?', faq3_a: 'Kami menggunakan dompet cold storage multi-signature, otentikasi 2FA, dan pemantauan real-time.',
+        faq4_q: 'Bisa tarik ke bank lokal?', faq4_a: 'Ya! Kami mendukung transfer bank lokal dan e-wallet di Vietnam, Thailand, dan Indonesia.',
+        testimonials_title: 'Kata Pengguna Kami', testimonials_sub: 'Bergabung dengan 2Juta+ trader bahagia',
+        testimonial1: 'Pindah dari Binance. Opsi deposit lokal di Vietnam sangat mengubah permainan.',
+        testimonial1_role: 'Trader, Ho Chi Minh City',
+        testimonial2: 'Biaya maker 0% menghemat ribuan dolar saya bulan ini. Antarmuka bersih.',
+        testimonial2_role: 'Investor Crypto, Jakarta',
+        testimonial3: 'Tim dukungan merespons dalam bahasa Thai dalam hitungan menit.',
+        testimonial3_role: 'Day Trader, Bangkok',
+        footer_terms: 'Ketentuan Layanan', footer_privacy: 'Kebijakan Privasi', footer_contact: 'Hubungi Kami',
+        footer_disclaimer: 'Halaman ini adalah demo untuk tujuan edukasi saja.',
+        modal_title: 'Buat Akun Anda', modal_sub: 'Mulai trading dalam 60 detik',
+        modal_email: 'Alamat Email', modal_code: 'Kode Verifikasi', modal_send: 'Kirim Kode',
+        modal_btn: 'Buat Akun Gratis', modal_terms: 'Dengan mendaftar, Anda menyetujui Ketentuan dan Kebijakan Privasi kami.',
+        demo_title: 'Cara Kerja NexusTrade',
+        demo_s1_title: 'Langkah 1: Deposit', demo_s1_desc: 'Deposit melalui transfer bank lokal, e-wallet, atau crypto. Dana tiba dalam 30 detik.',
+        demo_s2_title: 'Langkah 2: Trading', demo_s2_desc: 'Akses 300+ pasangan trading dengan biaya maker 0%.',
+        demo_s3_title: 'Langkah 3: Aman', demo_s3_desc: 'Dana Anda dilindungi oleh dompet cold storage multi-signature dan enkripsi militer.',
+        demo_s4_title: 'Langkah 4: Tarik', demo_s4_desc: 'Tarik dana ke rekening bank lokal atau e-wallet kapan saja.',
+        demo_prev: 'Sebelumnya', demo_next: 'Selanjutnya', demo_cta: 'Mulai Trading Sekarang'
+    }
+};
+
+function applyLang(lang) {
+    const t = translations[lang];
+    if(!t) return;
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const key = el.getAttribute('data-i18n');
+        if(t[key]) {
+            el.innerHTML = t[key];
+        }
+    });
+    document.querySelectorAll('.lang-btn').forEach(function(b) {
+        b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+    localStorage.setItem('nexus_lang', lang);
+}
+
+document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        applyLang(this.getAttribute('data-lang'));
+    });
+});
+
+// Load saved language
+const savedLang = localStorage.getItem('nexus_lang') || 'en';
+applyLang(savedLang);
+
+// ========== Scroll Animation ==========
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if(entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .pricing-card, .testimonial-card').forEach(function(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+});
+</script>
+
+</body>
+</html>
